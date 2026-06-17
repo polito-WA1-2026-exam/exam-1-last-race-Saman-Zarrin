@@ -1,48 +1,66 @@
-# Exam #N: "Exam Title"
-## Student: s123456 LASTNAME FIRSTNAME 
+# Exam #1: "Last Race"
+## Student: s353832 LASTNAME FIRSTNAME 
 
 ## React Client Application Routes
 
-- Route `/`: page content and purpose
-- Route `/something/:param`: page content and purpose, param specification
-- ...
+- Route `/`: Welcome page. Displays game instructions to anonymous users and prompts them to log in to play.
+- Route `/login`: The Authentication page. Contains the form for users to log in.
+- Route `/game`: The Main Game Loop page. Handles Phase 1 (10s map memorization), Phase 2 (90s blind route planning), and Phase 3 (route execution with events).
+- Route `/ranking`: The Leaderboard page. Displays the highest scores achieved by all registered users.
 
 ## API Server
 
-- POST `/api/something`
-  - request parameters and request body content
-  - response body content
-- GET `/api/something`
-  - request parameters
-  - response body content
-- POST `/api/something`
-  - request parameters and request body content
-  - response body content
-- ...
+- POST `/api/sessions`
+  - request body content: `{"username": "mario", "password": "password1common"}`
+  - response body content: `{ "id": 1, "username": "mario" }`
+- GET `/api/sessions/current`
+  - request parameters: None
+  - response body content: `{ "id": 1, "username": "mario" }` (if logged in) or `401 Unauthorized`
+- DELETE `/api/sessions/current`
+  - request parameters: None
+  - response body content: `{ "message": "Logged out successfully" }`
+- GET `/api/stations`
+  - request parameters: None
+  - response body content: Array of station objects `[{ "id": 1, "name": "Centrale", "is_interchange": 1 }, ...]`
+- GET `/api/segments`
+  - request parameters: None
+  - response body content: Array of segments `[{ "line_id": 1, "station_a": "Centrale", "station_b": "Porta Velaria" }, ...]`
+- GET `/api/game/setup`
+  - request parameters: None
+  - response body content: `{ "startStation": "Centrale", "targetStation": "Viale dei Mosaici" }` (Guaranteed to be separated by at least 3 segments)
+- GET `/api/events`
+  - request parameters: None
+  - response body content: Array of events `[{ "id": 1, "description": "Found a coin", "effect": 1 }, ...]`
+- GET `/api/rankings`
+  - request parameters: None
+  - response body content: Array of user high scores `[{ "username": "mario", "best_score": 22 }, ...]`
 
 ## Database Tables
 
-- Table `users` - contains xx yy zz
-- Table `something` - contains ww qq ss
-- ...
+- Table `users` - contains `id`, `username`, `salt`, `hash`
+- Table `lines` - contains `id`, `name`
+- Table `stations` - contains `id`, `name`, `is_interchange`
+- Table `segments` - contains `id`, `line_id`, `station_a_id`, `station_b_id`
+- Table `events` - contains `id`, `description`, `effect`
+- Table `games` - contains `id`, `user_id`, `score`
 
 ## Main React Components
 
-- `ListOfSomething` (in `List.js`): component purpose and main functionality
-- `GreatButton` (in `GreatButton.js`): component purpose and main functionality
-- ...
-
-(only _main_ components, minor ones may be skipped)
+- `Welcome` (in `Welcome.jsx`): Landing page detailing the game rules without rendering the map layout.
+- `Login` (in `Login.jsx`): Form component handling user credentials and session initialization.
+- `Game` (in `Game.jsx`): The core engine managing the 10s/90s timers, state transitions, route building logic, and step-by-step execution.
+- `MetroMap` (in `MetroMap.jsx`): A dynamic SVG component that renders the complex network graph, capable of toggling the visibility of connection lines based on the game phase.
+- `Ranking` (in `Ranking.jsx`): Podium component fetching and displaying the sorted maximum scores for all players.
 
 ## Screenshot
 
-![Screenshot](./img/screenshot.jpg)
+![Phase 3 Execution Phase](./img/screenshot1.jpg)
+
+![general ranking page](./img/screenshot2.jpg)
+
 
 ## Users Credentials
 
-- username, password (plus any other requested info)
-- username, password (plus any other requested info)
-
+- username: **mario**, password: **password1common** - username: **luigi**, password: **password1common** - username: **peach**, password: **password1common** 
 ## Use of AI Tools
-Briefly describe whether you used any AI tools (e.g., ChatGPT, GitHub Copilot, Claude) while working on this project, for which purposes (e.g., clarifying concepts, debugging, generating code), and how you verified or adapted their output.
-If you did not use any AI tools, simply state so.
+AI (Gemini) was utilized during the development of this project as a coding assistant. It was used to help map React state to dynamic SVG coordinates for the visual network graph and structure the database schemas.

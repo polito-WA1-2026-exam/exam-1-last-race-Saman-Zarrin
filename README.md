@@ -1,5 +1,5 @@
 # Exam #1: "Last Race"
-## Student: s353832 LASTNAME FIRSTNAME 
+## Student: s353832 ZARRIN SAMAN 
 
 ## React Client Application Routes
 
@@ -37,12 +37,14 @@
 
 ## Database Tables
 
-- Table `users` - contains `id`, `username`, `salt`, `hash`
-- Table `lines` - contains `id`, `name`
-- Table `stations` - contains `id`, `name`, `is_interchange`
-- Table `segments` - contains `id`, `line_id`, `station_a_id`, `station_b_id`
-- Table `events` - contains `id`, `description`, `effect`
-- Table `games` - contains `id`, `user_id`, `score`
+## Database Tables
+
+- Table `users` - Stores registered user credentials for authentication (contains `id`, `username`, `salt`, `hash`).
+- Table `lines` - Defines the different subway/metro lines (contains `id`, `name`).
+- Table `stations` - Stores the individual stops and flags if they are transfer points (contains `id`, `name`, `is_interchange`).
+- Table `segments` - Maps the connections between two stations to form the network graph (contains `id`, `line_id`, `station_a_id`, `station_b_id`).
+- Table `events` - Contains the random positive or negative occurrences encountered during gameplay (contains `id`, `description`, `effect`).
+- Table `games` - Tracks the match history and final scores for the leaderboard (contains `id`, `user_id`, `score`).
 
 ## Main React Components
 
